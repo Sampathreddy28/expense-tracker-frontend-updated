@@ -11,12 +11,14 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://expense-tracker-backend-2-op8c.onrender.com
-", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+     const res = await fetch(
+    "https://expense-tracker-backend-2-op8c.onrender.com/api/auth/login",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    }
+     );
 
       if (!res.ok) throw new Error("Invalid credentials");
 
