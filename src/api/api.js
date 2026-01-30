@@ -47,6 +47,7 @@ async function refreshAccessToken() {
 
   const data = await response.json();
 localStorage.setItem("token", data.token);
+  console.log("LOGIN RESPONSE:", data);
 return data.token;
 
 }
