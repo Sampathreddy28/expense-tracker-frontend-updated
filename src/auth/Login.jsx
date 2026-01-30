@@ -23,6 +23,7 @@ const Login = () => {
       if (!res.ok) throw new Error("Invalid credentials");
 
       const data = await res.json();
+console.log("LOGIN RESPONSE 👉", data);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.username);
