@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import { useAuth } from "../auth/AuthContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ console.log("LOGIN RESPONSE 👉", data);
 
       const role = data.authorities?.[0]?.authority;
       localStorage.setItem("role", role);
+login({ username: data.username, role });
 
       if (role === "ROLE_ADMIN") {
         navigate("/admin/dashboard", { replace: true });
