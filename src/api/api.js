@@ -33,6 +33,24 @@ export function forceLogout() {
 
 
 // ================= REFRESH TOKEN =================
+// async function refreshAccessToken() {
+//   const refreshToken = localStorage.getItem("refreshToken");
+//   if (!refreshToken) return null;
+
+//   const response = await fetch(`${API_BASE_URL}${REFRESH_ENDPOINT}`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ refreshToken })
+//   });
+
+//   if (!response.ok) return null;
+
+//   const data = await response.json();
+// localStorage.setItem("token", data.token);
+//   console.log("LOGIN RESPONSE:", data);
+// return data.token;
+
+// }
 async function refreshAccessToken() {
   const refreshToken = localStorage.getItem("refreshToken");
   if (!refreshToken) return null;
@@ -46,11 +64,20 @@ async function refreshAccessToken() {
   if (!response.ok) return null;
 
   const data = await response.json();
-localStorage.setItem("token", data.token);
-  console.log("LOGIN RESPONSE:", data);
-return data.token;
 
+  // ✅ SUPPORT ALL BACKEND NAMES
+  const newToken =
+    data.accessToken ||
+    data.token ||
+    data.jwt ||
+    data.access_token;
+
+  if (!newToken) return null;
+
+  localStorage.setItem("token", newToken);
+  return newToken;
 }
+
 
 // ================= SECURED FETCH (USER + ADMIN) =================
 export const securedFetch = async (endpoint, options = {}) => {
