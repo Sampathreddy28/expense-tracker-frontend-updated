@@ -55,10 +55,14 @@ return data.token;
 export const securedFetch = async (endpoint, options = {}) => {
   let token = localStorage.getItem("token");
 
+  // if (!token) {
+  //   forceLogout();
+  //   throw new Error("Not authenticated");
+  // }
   if (!token) {
-    forceLogout();
-    throw new Error("Not authenticated");
-  }
+  console.warn("Token missing, NOT forcing logout yet");
+}
+
 
   const doFetch = async (accessToken) =>
     fetch(`${API_BASE_URL}${endpoint}`, {
