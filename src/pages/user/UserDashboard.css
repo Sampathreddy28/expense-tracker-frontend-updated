@@ -1,0 +1,49 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ✅ Balance Card */
+.balance-card {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.balance-card::after {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 160px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+
+.balance-label {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 6px;
+}
+
+.balance-value {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* ✅ Section style (AddTransaction wrapper) */
+.dashboard-section {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}

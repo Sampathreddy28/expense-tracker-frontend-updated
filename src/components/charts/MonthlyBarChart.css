@@ -1,0 +1,24 @@
+/* ===============================
+   CHART CARD (Monthly Bar Chart)
+================================ */
+.chart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+}
+
+/* Chart heading */
+.chart-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+/* Chart container height */
+.chart-wrapper {
+  height: 280px;
+  width: 100%;
+}

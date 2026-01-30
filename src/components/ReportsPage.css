@@ -1,0 +1,90 @@
+/* =============================
+   REPORT CARD
+============================= */
+.reports-card {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.reports-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 14px;
+}
+
+/* =============================
+   BUTTON CONTAINER
+============================= */
+.reports-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* =============================
+   BASE BUTTON
+============================= */
+.report-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 14px;
+  color: white;
+  transition: 0.2s ease;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+}
+
+.report-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.report-btn:active {
+  transform: translateY(0px);
+}
+
+/* =============================
+   ICON
+============================= */
+.report-icon {
+  font-size: 18px;
+}
+
+/* =============================
+   BUTTON COLORS
+============================= */
+.report-btn.pdf {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.report-btn.csv {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.report-btn.excel {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+/* =============================
+   MOBILE RESPONSIVE
+============================= */
+@media (max-width: 600px) {
+  .reports-buttons {
+    flex-direction: column;
+  }
+
+  .report-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

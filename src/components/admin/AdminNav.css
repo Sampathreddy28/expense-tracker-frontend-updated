@@ -1,0 +1,38 @@
+/* ===============================
+   ADMIN NAVBAR
+================================ */
+.admin-nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  background: #1e293b; /* dark navbar */
+  padding: 14px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Links */
+.admin-nav a {
+  text-decoration: none;
+  color: #e2e8f0;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.admin-nav a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Active link style */
+.admin-nav a.active {
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+}

@@ -1,0 +1,355 @@
+/* ===============================
+   GLOBAL THEME
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* ===============================
+   MAIN LAYOUT (Sidebar + Content)
+================================ */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h3 {
+  font-size: 18px;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+/* Sidebar Links */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 12px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sidebar a.active {
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+}
+
+/* ===============================
+   TOP NAVBAR
+================================ */
+.navbar {
+  height: 60px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.navbar .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.badge-admin {
+  background: #f97316;
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 5px 10px;
+  border-radius: 999px;
+}
+
+/* Logout button */
+.logout-btn {
+  background: #dc2626;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+/* ===============================
+   PAGE CONTENT AREA
+================================ */
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  padding: 20px;
+}
+
+/* ===============================
+   CARDS / COMPONENT WRAPPER
+================================ */
+.component-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Card headings */
+.component-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.component-card h1 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+button {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-secondary:hover {
+  background: #cbd5e1;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-success {
+  background: #16a34a;
+  color: white;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+/* ===============================
+   FORMS
+================================ */
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* ===============================
+   TABLES (Admin Transactions)
+================================ */
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.transaction-table th {
+  background: #0f172a;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.transaction-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+.transaction-table tr:hover {
+  background: #f8fafc;
+}
+
+/* ===============================
+   FILTERS BAR (Admin)
+================================ */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* ===============================
+   STATS (Admin Income/Expense)
+================================ */
+.stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.stats .card {
+  flex: 1;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+}
+
+.stats .income {
+  background: #16a34a;
+}
+
+.stats .expense {
+  background: #dc2626;
+}
+
+/* ===============================
+   PAGINATION
+================================ */
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.pagination button {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+
+.pagination button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* ===============================
+   EXPORT BUTTONS (CSV / PDF)
+================================ */
+.export-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f172a;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  text-decoration: none;
+}
+
+.export-btn:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.export-btn svg {
+  width: 18px;
+  height: 18px;
+}
