@@ -1,5 +1,5 @@
 // ================= BASE URL =================
-export const API_BASE_URL = "http://localhost:8080";
+export const API_BASE_URL =  import.meta.env.VITE_API_BASE_URL || "https://expense-tracker-backend-2-op8c.onrender.com";
 
 // ================= AUTH =================
 export const LOGIN_ENDPOINT = "/api/auth/login";
