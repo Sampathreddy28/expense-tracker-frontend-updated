@@ -46,8 +46,9 @@ async function refreshAccessToken() {
   if (!response.ok) return null;
 
   const data = await response.json();
-  localStorage.setItem("token", data.accessToken);
-  return data.accessToken;
+localStorage.setItem("token", data.token);
+return data.token;
+
 }
 
 // ================= SECURED FETCH (USER + ADMIN) =================
