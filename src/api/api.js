@@ -51,69 +51,98 @@ export function forceLogout() {
 // return data.token;
 
 // }
-async function refreshAccessToken() {
-  const refreshToken = localStorage.getItem("refreshToken");
-  if (!refreshToken) return null;
+// async function refreshAccessToken() {
+//   const refreshToken = localStorage.getItem("refreshToken");
+//   if (!refreshToken) return null;
 
-  const response = await fetch(`${API_BASE_URL}${REFRESH_ENDPOINT}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refreshToken })
-  });
+//   const response = await fetch(`${API_BASE_URL}${REFRESH_ENDPOINT}`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ refreshToken })
+//   });
 
-  if (!response.ok) return null;
+//   if (!response.ok) return null;
 
-  const data = await response.json();
+//   const data = await response.json();
 
-  // ✅ SUPPORT ALL BACKEND NAMES
-  const newToken =
-    data.accessToken ||
-    data.token ||
-    data.jwt ||
-    data.access_token;
+//   // ✅ SUPPORT ALL BACKEND NAMES
+//   const newToken =
+//     data.accessToken ||
+//     data.token ||
+//     data.jwt ||
+//     data.access_token;
 
-  if (!newToken) return null;
+//   if (!newToken) return null;
 
-  localStorage.setItem("token", newToken);
-  return newToken;
-}
+//   localStorage.setItem("token", newToken);
+//   return newToken;
+// }
 
 
 // ================= SECURED FETCH (USER + ADMIN) =================
+// export const securedFetch = async (endpoint, options = {}) => {
+//   let token = localStorage.getItem("token");
+
+//   // if (!token) {
+//   //   forceLogout();
+//   //   throw new Error("Not authenticated");
+//   // }
+//   if (!token) {
+//   console.warn("Token missing, NOT forcing logout yet");
+// }
+
+
+//   const doFetch = async (accessToken) =>
+//     fetch(`${API_BASE_URL}${endpoint}`, {
+//       ...options,
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${accessToken}`,
+//         ...(options.headers || {})
+//       }
+//     });
+
+//   let response = await doFetch(token);
+
+//   // 🔁 Access token expired → try refresh once
+//   if (response.status === 401) {
+//     const newToken = await refreshAccessToken();
+
+//     if (!newToken) {
+//       forceLogout();
+//       throw new Error("Session expired");
+//     }
+
+//     response = await doFetch(newToken);
+//   }
+
+//   if (!response.ok) {
+//     const text = await response.text();
+//     throw new Error(text || "API error");
+//   }
+
+//   return response.json();
+// };
 export const securedFetch = async (endpoint, options = {}) => {
-  let token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-  // if (!token) {
-  //   forceLogout();
-  //   throw new Error("Not authenticated");
-  // }
   if (!token) {
-  console.warn("Token missing, NOT forcing logout yet");
-}
+    forceLogout();
+    throw new Error("Not authenticated");
+  }
 
-
-  const doFetch = async (accessToken) =>
-    fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-        ...(options.headers || {})
-      }
-    });
-
-  let response = await doFetch(token);
-
-  // 🔁 Access token expired → try refresh once
-  if (response.status === 401) {
-    const newToken = await refreshAccessToken();
-
-    if (!newToken) {
-      forceLogout();
-      throw new Error("Session expired");
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      ...(options.headers || {})
     }
+  });
 
-    response = await doFetch(newToken);
+  if (response.status === 401) {
+    forceLogout();
+    throw new Error("Session expired");
   }
 
   if (!response.ok) {
@@ -123,6 +152,7 @@ export const securedFetch = async (endpoint, options = {}) => {
 
   return response.json();
 };
+
 // ================= ADMIN =================
 // export const ADMIN_LOGIN_ENDPOINT = "/api/admin/signin";
 
