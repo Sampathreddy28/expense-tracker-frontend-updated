@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   BUDGETS_ALERTS_ENDPOINT
 } from "../../api/api";
+import { API_BASE_URL } from "../../api/api";
 
 export default function BudgetAlertBanner() {
   const [alert, setAlert] = useState(null);
@@ -14,7 +15,7 @@ export default function BudgetAlertBanner() {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:8080${BUDGETS_ALERTS_ENDPOINT}`,
+     `${API_BASE_URL}${BUDGETS_ALERTS_ENDPOINT}`,
       {
         headers: {
           Authorization: `Bearer ${token}`
