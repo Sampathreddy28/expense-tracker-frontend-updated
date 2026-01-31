@@ -10,8 +10,9 @@ const BudgetManager = () => {
     useEffect(() => {
         const fetchBudgets = async () => {
             try {
-               const data = await api.get(BUDGETS_BASE_ENDPOINT);
-setBudgets(res.data);
+             const res = await api.get(BUDGETS_BASE_ENDPOINT); // ✅ Axios call
+        const data = res.data;
+
 // const data = await securedFetch(BUDGETS_BASE_ENDPOINT);
                 
                 if (!Array.isArray(data)) {
