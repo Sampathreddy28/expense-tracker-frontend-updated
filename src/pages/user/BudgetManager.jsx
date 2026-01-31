@@ -9,10 +9,10 @@ const BudgetManager = () => {
     useEffect(() => {
         const fetchBudgets = async () => {
             try {
-               const res = await api.get(BUDGETS_BASE_ENDPOINT);
+               const data = await api.get(BUDGETS_BASE_ENDPOINT);
 setBudgets(res.data);
-
-
+// const data = await securedFetch(BUDGETS_BASE_ENDPOINT);
+                
                 if (!Array.isArray(data)) {
                     throw new Error("Invalid data format");
                 }
