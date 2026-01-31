@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { securedFetch, BUDGETS_BASE_ENDPOINT } from './api';
+import api from "./axios";
 
 const BudgetManager = () => {
     const [budgets, setBudgets] = useState([]);
