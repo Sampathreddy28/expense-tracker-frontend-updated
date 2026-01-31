@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  BUDGETS_ALERTS_ENDPOINT
-} from "../../api/api";
-import { API_BASE_URL } from "../../api/api";
+import api from "../../api/axios";
+import { BUDGETS_ALERTS_ENDPOINT } from "../../api/api";
 
 export default function BudgetAlertBanner() {
   const [alert, setAlert] = useState(null);
@@ -12,23 +10,18 @@ export default function BudgetAlertBanner() {
   }, []);
 
   const checkAlerts = async () => {
-    const token = localStorage.getItem("token");
+    try {
+      const res = await api.get(BUDGETS_ALERTS_ENDPOINT);
 
-    const res = await fetch(
-     `${API_BASE_URL}${BUDGETS_ALERTS_ENDPOINT}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      // Backend returns { status, message }
+      if (res.data?.status === "ALERT") {
+        setAlert(res.data.message);
+      } else {
+        setAlert(null);
       }
-    );
 
-    const text = await res.text();
-
-    if (!res.ok) {
-      setAlert(text);
-    } else {
-      setAlert(null);
+    } catch (err) {
+      console.error("Alert fetch error:", err.message);
     }
   };
 
