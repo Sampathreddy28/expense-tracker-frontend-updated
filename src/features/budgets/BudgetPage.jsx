@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import api from "../../api/axios";
+import {
+  BUDGETS_BASE_ENDPOINT,
+  BUDGETS_ALERTS_ENDPOINT
+} from "../../api/api";
 
-import {BUDGETS_BASE_ENDPOINT,
-  BUDGETS_ALERTS_ENDPOINT,securedFetch} from "../../api/api";
 export default function BudgetPage() {
   const [budgets, setBudgets] = useState([]);
   const [alert, setAlert] = useState(null);
@@ -12,28 +15,24 @@ export default function BudgetPage() {
 
   const loadBudgets = async () => {
     try {
-      const data = await securedFetch(BUDGETS_BASE_ENDPOINT);
-      setBudgets(data);
+      const res = await api.get(BUDGETS_BASE_ENDPOINT);
+      setBudgets(res.data);
     } catch (err) {
       console.error(err.message);
     }
   };
 
- 
-
-const checkAlerts = async () => {
-  try {
-    const res = await securedFetch(BUDGETS_ALERTS_ENDPOINT);
-    setAlert(res); // { status, message }
-  } catch (err) {
-    setAlert({
-      status: "ERROR",
-      message: "Failed to check budget alerts",
-    });
-  }
-};
-
-
+  const checkAlerts = async () => {
+    try {
+      const res = await api.get(BUDGETS_ALERTS_ENDPOINT);
+      setAlert(res.data); // { status, message }
+    } catch (err) {
+      setAlert({
+        status: "ERROR",
+        message: "Failed to check budget alerts"
+      });
+    }
+  };
 
   return (
     <div>
@@ -51,7 +50,7 @@ const checkAlerts = async () => {
         Check Budget Alerts
       </button>
 
-{alert && <p>{alert.message}</p>}
+      {alert && <p>{alert.message}</p>}
     </div>
   );
 }
