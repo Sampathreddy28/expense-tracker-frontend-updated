@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { securedFetch, BALANCE_ENDPOINT } from './api';
+import api from "../../api/axios";
 
 const Balance = ({ refreshTrigger }) => {
     const [balance, setBalance] = useState(0);
@@ -11,8 +12,9 @@ const Balance = ({ refreshTrigger }) => {
         setError(null);
 
         try {
-            const data = await securedFetch(BALANCE_ENDPOINT);
-
+            // const data = await securedFetch(BALANCE_ENDPOINT);
+const res = await api.get(BALANCE_ENDPOINT);
+      const data = res.data;
             let value = 0;
             if (typeof data === 'number') value = data;
             else if (typeof data === 'string') value = parseFloat(data);
