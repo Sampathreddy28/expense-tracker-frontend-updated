@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import "./AddTransaction.css";
 
 const AddTransaction = ({ onAdded }) => {
@@ -13,7 +13,8 @@ const AddTransaction = ({ onAdded }) => {
   });
 
   useEffect(() => {
-    securedFetch("/api/categories").then(setCategories);
+    api.get("/api/categories")
+       .then(res => setCategories(res.data));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -24,33 +25,23 @@ const AddTransaction = ({ onAdded }) => {
       return;
     }
 
-    await securedFetch("/api/transactions", {
-      method: "POST",
-      body: JSON.stringify({
-        ...form,
-        amount: Number(form.amount),
-        categoryId: Number(form.categoryId)
-      })
+    await api.post("/api/transactions", {
+      ...form,
+      amount: Number(form.amount),
+      categoryId: Number(form.categoryId)
+    });
+
+    // Reset form
+    setForm({
+      description: "",
+      amount: "",
+      type: "EXPENSE",
+      categoryId: "",
+      date: ""
     });
 
     onAdded();
   };
-const submitTransaction = async () => {
-  try {
-    const res = await securedFetch("/api/transactions", {
-      method: "POST",
-      body: JSON.stringify(formData),
-    });
-
-    if (res.status === "ALERT") {
-      setAlert(res.message);
-    }
-
-    refreshTransactions();
-  } catch (err) {
-    alert("Failed to add transaction");
-  }
-};
 
   return (
     <div className="component-card">
@@ -60,7 +51,9 @@ const submitTransaction = async () => {
         <input
           placeholder="Description"
           value={form.description}
-          onChange={e => setForm({ ...form, description: e.target.value })}
+          onChange={e =>
+            setForm({ ...form, description: e.target.value })
+          }
           required
         />
 
@@ -68,22 +61,27 @@ const submitTransaction = async () => {
           type="number"
           placeholder="Amount"
           value={form.amount}
-          onChange={e => setForm({ ...form, amount: e.target.value })}
+          onChange={e =>
+            setForm({ ...form, amount: e.target.value })
+          }
           required
         />
 
         <select
           value={form.type}
-          onChange={e => setForm({ ...form, type: e.target.value })}
+          onChange={e =>
+            setForm({ ...form, type: e.target.value })
+          }
         >
           <option value="EXPENSE">Expense</option>
           <option value="INCOME">Income</option>
         </select>
 
-        {/* ✅ REQUIRED */}
         <select
           value={form.categoryId}
-          onChange={e => setForm({ ...form, categoryId: e.target.value })}
+          onChange={e =>
+            setForm({ ...form, categoryId: e.target.value })
+          }
           required
         >
           <option value="">Select Category</option>
@@ -99,7 +97,9 @@ const submitTransaction = async () => {
         <input
           type="date"
           value={form.date}
-          onChange={e => setForm({ ...form, date: e.target.value })}
+          onChange={e =>
+            setForm({ ...form, date: e.target.value })
+          }
           required
         />
 

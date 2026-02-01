@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import "./EditTransactionModal.css";
 
 const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
@@ -10,7 +10,8 @@ const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
   useEffect(() => {
     if (!transaction) return;
 
-    securedFetch("/api/categories").then(cats => {
+api.get("/api/categories").then(res => {
+  const cats = res.data;
       setCategories(cats);
 
       const filtered = cats.filter(c => c.type === transaction.type);
@@ -42,7 +43,7 @@ const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
 
     setLoading(true);
 
-    await securedFetch(`/api/transactions/${transaction.id}`, {
+await api.put(`/api/transactions/${transaction.id}`, {
       method: "PUT",
       body: JSON.stringify({
         description: form.description,

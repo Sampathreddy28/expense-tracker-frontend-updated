@@ -14,7 +14,7 @@ const { login } = useAuth();
 
     try {
      const res = await fetch(
-    `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
+    `https://expense-tracker-backend-2-op8c.onrender.com/api/auth/login`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

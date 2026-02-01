@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 
-const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
+const EditTransactionModal = ({
+  open,
+  transaction,
+  onClose,
+  onUpdated
+}) => {
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,7 +22,8 @@ const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
       date: transaction.date
     });
 
-    securedFetch("/api/categories").then(setCategories);
+    api.get("/api/categories")
+       .then(res => setCategories(res.data));
   }, [transaction]);
 
   if (!open || !form) return null;
@@ -28,44 +34,25 @@ const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
   };
 
   const handleSubmit = async () => {
-  // 🔥 HARD STOP if missing
-  if (!form.categoryId || Number(form.categoryId) <= 0) {
-    alert("Please select a category");
-    return;
-  }
-
-  const payload = {
-    description: form.description,
-    amount: Number(form.amount),
-    type: form.type,
-    categoryId: Number(form.categoryId), // ✅ GUARANTEED
-    date: form.date
-  };
-
-  console.log("UPDATE PAYLOAD 👉", payload); // 🔍 DEBUG
-
-  await securedFetch(`/api/transactions/${transaction.id}`, {
-    method: "PUT",
-    body: JSON.stringify(payload)
-  });
-
-  onUpdated();
-  onClose();
-};
-
+    if (!form.categoryId || Number(form.categoryId) <= 0) {
+      alert("Please select a category");
+      return;
+    }
 
     setLoading(true);
 
-    await securedFetch(`/api/transactions/${transaction.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        description: form.description,
-        amount: Number(form.amount),
-        type: form.type,
-        categoryId: Number(form.categoryId), // ✅ REQUIRED
-        date: form.date
-      })
-    });
+    const payload = {
+      description: form.description,
+      amount: Number(form.amount),
+      type: form.type,
+      categoryId: Number(form.categoryId),
+      date: form.date
+    };
+
+    await api.put(
+      `/api/transactions/${transaction.id}`,
+      payload
+    );
 
     setLoading(false);
     onUpdated();
@@ -90,12 +77,15 @@ const EditTransactionModal = ({ open, transaction, onClose, onUpdated }) => {
           onChange={handleChange}
         />
 
-        <select name="type" value={form.type} onChange={handleChange}>
+        <select
+          name="type"
+          value={form.type}
+          onChange={handleChange}
+        >
           <option value="EXPENSE">Expense</option>
           <option value="INCOME">Income</option>
         </select>
 
-        {/* 🔥 REQUIRED CATEGORY */}
         <select
           name="categoryId"
           value={form.categoryId}

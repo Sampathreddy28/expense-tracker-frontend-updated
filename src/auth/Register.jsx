@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
+import api from "../api/axios";
+import { REGISTER_ENDPOINT } from "../api/api";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -20,16 +22,21 @@ const Register = () => {
 
     try {
       const res = await fetch(
-    `${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  `https://expense-tracker-backend-2-op8c.onrender.com/api/auth/signup`,
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  }
+);
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || "Registration failed");
-      }
+if (!res.ok) {
+  const err = await res.json();
+  throw new Error(err.message || "Registration failed");
+}
+
+
+    
 
       alert("Registration successful! Please login.");
       navigate("/login");
