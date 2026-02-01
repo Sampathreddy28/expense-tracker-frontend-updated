@@ -9,20 +9,30 @@ const api = axios.create({
   baseURL: API_BASE_URL
 });
 
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(config => {
   const token = localStorage.getItem("token");
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
 api.interceptors.response.use(
-  (res) => res,
-  async (err) => {
+  res => res,
+  async err => {
     const originalRequest = err.config;
 
-    if (err.response?.status === 401 && !originalRequest._retry) {
+    if (!originalRequest) {
+      return Promise.reject(err);
+    }
+
+    if (
+      err.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes(REFRESH_ENDPOINT)
+    ) {
       originalRequest._retry = true;
 
       const refreshToken =
@@ -46,8 +56,10 @@ api.interceptors.response.use(
 
         localStorage.setItem("token", newToken);
 
-        originalRequest.headers.Authorization =
-          `Bearer ${newToken}`;
+        originalRequest.headers = {
+          ...originalRequest.headers,
+          Authorization: `Bearer ${newToken}`
+        };
 
         return api(originalRequest);
       } catch (e) {
