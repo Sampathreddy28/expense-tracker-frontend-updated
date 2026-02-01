@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import AddTransaction from "../../pages/user/AddTransaction";
 import TransactionHistory from "../../pages/user/TransactionHistory";
 import BudgetPage from "../../features/budgets/BudgetPage";
@@ -27,34 +27,34 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      const data = await securedFetch("/api/transactions/balance");
-      setBalance(`₹${Number(data.balance).toFixed(2)}`);
+      const res = await api.get(
+        "/api/transactions/balance"
+      );
+      setBalance(
+        `₹${Number(res.data.balance).toFixed(2)}`
+      );
     };
+
     fetchBalance();
   }, [refreshTrigger]);
 
   return (
-    <>
-    
-  <div className="dashboard-container">
-    <div className="component-card">
-      <h3>Current Balance</h3>
-      <h1>{balance}</h1>
+    <div className="dashboard-container">
+      <div className="component-card">
+        <h3>Current Balance</h3>
+        <h1>{balance}</h1>
+      </div>
+
+      <AddTransaction onAdded={triggerRefresh} />
+      <TransactionHistory refreshTrigger={refreshTrigger} />
+      <BudgetPage />
+      <AnalyticsPage />
+      <InsightsPage />
+      <AlertSettings />
+      <MonthlyReportDownload />
+      <MonthlyTrendChart />
+      <SpendingInsights />
     </div>
-
-    <AddTransaction onAdded={triggerRefresh} />
-    <TransactionHistory refreshTrigger={refreshTrigger} />
-    <BudgetPage />
-    <AnalyticsPage />
-    <InsightsPage />
-    <AlertSettings />
-   <MonthlyReportDownload />
-   <MonthlyTrendChart />
-   <SpendingInsights />
-  </div>
-
-
-    </>
   );
 }
 

@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  securedFetch,
-  ADMIN_PROMOTE_USER,
-  ADMIN_BLOCK_USER,
-  ADMIN_UNBLOCK_USER,
-  ADMIN_FORCE_LOGOUT
-} from "../../api/api";
+import api from "../../api/axios";
 
 const AdminUserManager = () => {
   const [users, setUsers] = useState([]);
@@ -19,8 +13,8 @@ const AdminUserManager = () => {
   const loadUsers = async () => {
     try {
       setLoading(true);
-      const data = await securedFetch("/api/admin/users");
-      setUsers(data);
+      const res = await api.get("/api/admin/users");
+      setUsers(res.data);
     } catch (err) {
       console.error(err);
       setError("Failed to load users");
@@ -30,24 +24,26 @@ const AdminUserManager = () => {
   };
 
   const promoteUser = async (id) => {
-    await ADMIN_PROMOTE_USER(id);
+    await api.put(`/api/admin/users/${id}/promote`);
     loadUsers();
   };
 
   const blockUser = async (id) => {
-    await ADMIN_BLOCK_USER(id);
+    await api.put(`/api/admin/users/${id}/block`);
     loadUsers();
   };
 
   const unblockUser = async (id) => {
-    await ADMIN_UNBLOCK_USER(id);
+    await api.put(`/api/admin/users/${id}/unblock`);
     loadUsers();
   };
-const forceLogout = async (username) => {
-  await ADMIN_FORCE_LOGOUT(username);
-  alert("User force logged out");
-};
 
+  const forceLogoutUser = async (username) => {
+    await api.post(
+      `/api/admin/users/${username}/force-logout`
+    );
+    alert("User force logged out");
+  };
 
   if (loading) return <p>Loading users...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -67,48 +63,69 @@ const forceLogout = async (username) => {
         </thead>
 
         <tbody>
-          {users.map(user => {
+          {users.map((user) => {
             const isAdmin = user.roles?.some(
-              r => r.name === "ROLE_ADMIN" || r === "ROLE_ADMIN"
+              (r) =>
+                r.name === "ROLE_ADMIN" ||
+                r === "ROLE_ADMIN"
             );
 
             return (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.username}</td>
-                <td>{user.roles?.map(r => r.name || r).join(", ")}</td>
+                <td>
+                  {user.roles
+                    ?.map((r) => r.name || r)
+                    .join(", ")}
+                </td>
 
                 <td>
                   {/* Promote */}
                   <button
-                    onClick={() => promoteUser(user.id)}
+                    onClick={() =>
+                      promoteUser(user.id)
+                    }
                     disabled={isAdmin}
                   >
                     Promote
                   </button>
 
-                  {/* Block / Unblock (NON ADMINS ONLY) */}
-                  {!isAdmin && (
-                    user.enabled ? (
+                  {/* Block / Unblock */}
+                  {!isAdmin &&
+                    (user.enabled ? (
                       <button
-                        onClick={() => blockUser(user.id)}
-                        style={{ marginLeft: 8, color: "red" }}
+                        onClick={() =>
+                          blockUser(user.id)
+                        }
+                        style={{
+                          marginLeft: 8,
+                          color: "red"
+                        }}
                       >
                         Block
                       </button>
                     ) : (
                       <button
-                        onClick={() => unblockUser(user.id)}
-                        style={{ marginLeft: 8, color: "green" }}
+                        onClick={() =>
+                          unblockUser(user.id)
+                        }
+                        style={{
+                          marginLeft: 8,
+                          color: "green"
+                        }}
                       >
                         Unblock
                       </button>
-                    )
-                  )}
+                    ))}
 
-                  {/* Force Logout */}
+                  {/* Force logout */}
                   <button
-                    onClick={() => forceLogout(user.username)}
+                    onClick={() =>
+                      forceLogoutUser(
+                        user.username
+                      )
+                    }
                     style={{ marginLeft: 8 }}
                   >
                     Force Logout

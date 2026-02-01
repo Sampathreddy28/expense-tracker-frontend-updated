@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import {
   PieChart,
   Pie,
@@ -10,29 +10,27 @@ import {
 import { buildParams } from "../../api/buildParams";
 
 const COLORS = [
-  "#2563eb", "#16a34a", "#dc2626",
-  "#9333ea", "#ea580c", "#0f766e"
+  "#2563eb",
+  "#16a34a",
+  "#dc2626",
+  "#9333ea",
+  "#ea580c",
+  "#0f766e"
 ];
 
 export default function AdminCategoryAnalytics() {
   const [data, setData] = useState([]);
 
-//   useEffect(() => {
-// securedFetch(`/api/admin/analytics/category-summary?${buildParams()}`)
-//       .then(setData)
-//       .catch(console.error);
-//   }, []);
+  useEffect(() => {
+    api.get(
+      `/api/admin/analytics/category-summary?${buildParams()}`
+    )
+      .then(res => setData(res.data))
+      .catch(console.error);
+  }, []);
 
-useEffect(() => {
-  securedFetch(
-    `/api/admin/analytics/category-summary?${buildParams()}`
-  )
-    .then(setData)
-    .catch(console.error);
-}, []);
-
-
-  if (!data.length) return <p>No category data available</p>;
+  if (!data.length)
+    return <p>No category data available</p>;
 
   return (
     <div className="h-96 bg-white p-4 rounded shadow">
@@ -40,7 +38,7 @@ useEffect(() => {
         Expense Distribution by Category (All Users)
       </h2>
 
-      <ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}

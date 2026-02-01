@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 
 function AlertSettings() {
   const [enabled, setEnabled] = useState(true);
@@ -8,9 +8,7 @@ function AlertSettings() {
   const sendTestAlert = async () => {
     setLoading(true);
     try {
-      await securedFetch("/api/alerts/test", {
-        method: "POST",
-      });
+      await api.post("/api/alerts/test");
       alert("📧 Test email sent!");
     } catch (err) {
       console.error(err);
@@ -23,11 +21,10 @@ function AlertSettings() {
   const sendMonthlyReport = async () => {
     setLoading(true);
     try {
-      const res = await securedFetch(
-        "/api/reports/send-monthly-report",
-        { method: "POST" }
+      const res = await api.post(
+        "/api/reports/send-monthly-report"
       );
-      alert(res?.message || "📊 Monthly report sent!");
+      alert(res.data?.message || "📊 Monthly report sent!");
     } catch (err) {
       console.error(err);
       alert("❌ Failed to send monthly report");
@@ -51,13 +48,19 @@ function AlertSettings() {
 
       <br /><br />
 
-      <button onClick={sendTestAlert} disabled={!enabled || loading}>
+      <button
+        onClick={sendTestAlert}
+        disabled={!enabled || loading}
+      >
         {loading ? "Sending..." : "Send Test Email"}
       </button>
 
       <br /><br />
 
-      <button onClick={sendMonthlyReport} disabled={!enabled || loading}>
+      <button
+        onClick={sendMonthlyReport}
+        disabled={!enabled || loading}
+      >
         {loading ? "Sending..." : "Send Monthly Report"}
       </button>
     </div>

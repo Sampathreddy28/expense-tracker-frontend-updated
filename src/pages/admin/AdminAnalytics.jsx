@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import {
   BarChart,
   Bar,
@@ -22,40 +22,59 @@ export default function AdminAnalytics() {
   const [chartData, setChartData] = useState([]);
 
   const [username, setUsername] = useState("");
-  const [filters, setFilters] = useState({ startDate: "", endDate: "" });
+  const [filters, setFilters] = useState({
+    startDate: "",
+    endDate: ""
+  });
 
-  // Helper to build URL params
+  // Build query params
   const buildParams = () => {
     const params = new URLSearchParams();
     if (username) params.append("username", username);
-    if (filters.startDate) params.append("startDate", filters.startDate);
-    if (filters.endDate) params.append("endDate", filters.endDate);
+    if (filters.startDate)
+      params.append("startDate", filters.startDate);
+    if (filters.endDate)
+      params.append("endDate", filters.endDate);
+
     return params.toString();
   };
 
   useEffect(() => {
-    // Monthly bar chart
-securedFetch(`/api/admin/analytics/monthly-trend?${buildParams()}`)
-      .then(setMonthly)
-      .catch(console.error);
+    const load = async () => {
+      try {
+        // Monthly trend
+        const monthlyRes = await api.get(
+          `/api/admin/analytics/monthly-trend?${buildParams()}`
+        );
+        setMonthly(monthlyRes.data);
 
-    // Category pie chart
-    securedFetch(`/api/admin/analytics/category-summary`)
-      .then(setCategories)
-      .catch(console.error);
+        // Category distribution
+        const categoryRes = await api.get(
+          "/api/admin/analytics/category-summary"
+        );
+        setCategories(categoryRes.data);
 
-    // Income vs Expense line chart
-    securedFetch("/api/admin/analytics/income-expense")
-  .then(setChartData)
-  .catch(console.error);
+        // Income vs expense
+        const incomeExpenseRes = await api.get(
+          "/api/admin/analytics/income-expense"
+        );
+        setChartData(incomeExpenseRes.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
+    load();
   }, [username, filters.startDate, filters.endDate]);
 
   return (
     <div className="grid grid-cols-2 gap-6">
       {/* Monthly Trend */}
       <div className="bg-white p-4 rounded shadow h-72">
-        <h3 className="font-semibold mb-2">Monthly Trend</h3>
+        <h3 className="font-semibold mb-2">
+          Monthly Trend
+        </h3>
+
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={monthly}>
             <XAxis dataKey="month" />
@@ -68,7 +87,10 @@ securedFetch(`/api/admin/analytics/monthly-trend?${buildParams()}`)
 
       {/* Category Distribution */}
       <div className="bg-white p-4 rounded shadow h-72">
-        <h3 className="font-semibold mb-2">Category Distribution</h3>
+        <h3 className="font-semibold mb-2">
+          Category Distribution
+        </h3>
+
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -79,7 +101,10 @@ securedFetch(`/api/admin/analytics/monthly-trend?${buildParams()}`)
               label
             >
               {categories.map((_, i) => (
-                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                <Cell
+                  key={i}
+                  fill={COLORS[i % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
@@ -87,16 +112,27 @@ securedFetch(`/api/admin/analytics/monthly-trend?${buildParams()}`)
         </ResponsiveContainer>
       </div>
 
-      {/* Income vs Expense Line Chart */}
+      {/* Income vs Expense */}
       <div className="bg-white p-4 rounded shadow col-span-2 h-72">
-        <h3 className="font-semibold mb-2">Income vs Expense</h3>
+        <h3 className="font-semibold mb-2">
+          Income vs Expense
+        </h3>
+
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Line dataKey="income" stroke="#4CAF50" name="Income" />
-            <Line dataKey="expense" stroke="#F44336" name="Expense" />
+            <Line
+              dataKey="income"
+              stroke="#4CAF50"
+              name="Income"
+            />
+            <Line
+              dataKey="expense"
+              stroke="#F44336"
+              name="Expense"
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>

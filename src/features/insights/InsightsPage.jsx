@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import "./InsightsPage.css";
 
 export default function InsightsPage() {
@@ -11,8 +11,10 @@ export default function InsightsPage() {
 
   const loadInsights = async () => {
     try {
-      const data = await securedFetch("/api/insights/monthly");
-      setInsights(data);
+      const res = await api.get(
+        "/api/insights/monthly"
+      );
+      setInsights(res.data);
     } catch (err) {
       console.error(err.message);
     }
@@ -20,10 +22,14 @@ export default function InsightsPage() {
 
   return (
     <div className="insights-card">
-      <h2 className="insights-title">Spending Insights</h2>
+      <h2 className="insights-title">
+        Spending Insights
+      </h2>
 
       {insights.length === 0 ? (
-        <p className="insights-empty">No insights available yet.</p>
+        <p className="insights-empty">
+          No insights available yet.
+        </p>
       ) : (
         <ul className="insights-list">
           {insights.map((i, idx) => (

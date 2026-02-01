@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 import MonthlyTrendChart from "./MonthlyTrendChart";
 import CategoryPieChart from "./CategoryPieChart";
 import "./AnalyticsPage.css";
@@ -13,13 +13,15 @@ export default function AnalyticsPage() {
   }, []);
 
   const load = async () => {
-    setTrend(await securedFetch("/api/analytics/monthly-trend"));
-
-    setCategories(
-      await securedFetch(
-        "/api/analytics/category-summary?startDate=2024-01-01&endDate=2024-12-31"
-      )
+    const trendRes = await api.get(
+      "/api/analytics/monthly-trend"
     );
+    setTrend(trendRes.data);
+
+    const catRes = await api.get(
+      "/api/analytics/category-summary?startDate=2024-01-01&endDate=2024-12-31"
+    );
+    setCategories(catRes.data);
   };
 
   return (
@@ -28,12 +30,16 @@ export default function AnalyticsPage() {
 
       <div className="analytics-grid">
         <div className="analytics-card">
-          <h3 className="analytics-card-title">Monthly Trend</h3>
+          <h3 className="analytics-card-title">
+            Monthly Trend
+          </h3>
           <MonthlyTrendChart data={trend} />
         </div>
 
         <div className="analytics-card">
-          <h3 className="analytics-card-title">Category Split</h3>
+          <h3 className="analytics-card-title">
+            Category Split
+          </h3>
           <CategoryPieChart data={categories} />
         </div>
       </div>

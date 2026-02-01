@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { securedFetch } from "../../api/api";
+import api from "../../api/axios";
 
 const AdminTransactions = () => {
   const [transactions, setTransactions] = useState([]);
@@ -14,12 +14,12 @@ const AdminTransactions = () => {
       search
     });
 
-    const data = await securedFetch(
+    const res = await api.get(
       `/api/transactions/admin?${params}`
     );
 
-    setTransactions(data.content);
-    setTotalPages(data.totalPages);
+    setTransactions(res.data.content || []);
+    setTotalPages(res.data.totalPages || 1);
   };
 
   useEffect(() => {
@@ -27,12 +27,10 @@ const AdminTransactions = () => {
   }, [page]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this transaction?")) return;
+    if (!window.confirm("Delete this transaction?"))
+      return;
 
-    await securedFetch(`/api/transactions/${id}`, {
-      method: "DELETE"
-    });
-
+    await api.delete(`/api/transactions/${id}`);
     fetchTransactions();
   };
 
@@ -40,7 +38,7 @@ const AdminTransactions = () => {
     <div className="component-card">
       <h2>Admin – All Transactions</h2>
 
-      {/* 🔍 SEARCH */}
+      {/* SEARCH */}
       <input
         placeholder="Search description"
         value={search}
@@ -50,9 +48,11 @@ const AdminTransactions = () => {
         }}
       />
 
-      <button onClick={fetchTransactions}>Search</button>
+      <button onClick={fetchTransactions}>
+        Search
+      </button>
 
-      {/* 📄 TABLE */}
+      {/* TABLE */}
       <table className="transaction-table">
         <thead>
           <tr>
@@ -67,7 +67,7 @@ const AdminTransactions = () => {
         </thead>
 
         <tbody>
-          {transactions.map(tx => (
+          {transactions.map((tx) => (
             <tr key={tx.id}>
               <td>{tx.user?.username}</td>
               <td>{tx.date}</td>
@@ -78,7 +78,9 @@ const AdminTransactions = () => {
               <td>
                 <button
                   style={{ color: "red" }}
-                  onClick={() => handleDelete(tx.id)}
+                  onClick={() =>
+                    handleDelete(tx.id)
+                  }
                 >
                   Delete
                 </button>
@@ -88,9 +90,12 @@ const AdminTransactions = () => {
         </tbody>
       </table>
 
-      {/* ⏮ PAGINATION */}
+      {/* PAGINATION */}
       <div className="pagination">
-        <button disabled={page === 0} onClick={() => setPage(p => p - 1)}>
+        <button
+          disabled={page === 0}
+          onClick={() => setPage((p) => p - 1)}
+        >
           Prev
         </button>
 
@@ -100,7 +105,7 @@ const AdminTransactions = () => {
 
         <button
           disabled={page + 1 >= totalPages}
-          onClick={() => setPage(p => p + 1)}
+          onClick={() => setPage((p) => p + 1)}
         >
           Next
         </button>
