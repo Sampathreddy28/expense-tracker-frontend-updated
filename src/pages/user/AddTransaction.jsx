@@ -3,44 +3,58 @@ import api from "../../api/axios";
 import "./AddTransaction.css";
 
 const AddTransaction = ({ onAdded }) => {
+  const today = new Date().toISOString().split("T")[0];
+
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
     description: "",
     amount: "",
     type: "EXPENSE",
     categoryId: "",
-    date: ""
+    date: today
   });
 
   useEffect(() => {
-    api.get("/api/categories")
-       .then(res => setCategories(res.data));
+    loadCategories();
   }, []);
+
+  const loadCategories = async () => {
+    try {
+      const res = await api.get("/api/categories");
+      setCategories(res.data);
+    } catch {
+      alert("Failed to load categories");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.categoryId) {
-      alert("Please select a category");
+      alert("Please select category");
       return;
     }
 
-    await api.post("/api/transactions", {
-      ...form,
-      amount: Number(form.amount),
-      categoryId: Number(form.categoryId)
-    });
+    try {
+      await api.post("/api/transactions", {
+        ...form,
+        amount: Number(form.amount),
+        categoryId: Number(form.categoryId)
+      });
 
-    // Reset form
-    setForm({
-      description: "",
-      amount: "",
-      type: "EXPENSE",
-      categoryId: "",
-      date: ""
-    });
+      // Reset form
+      setForm({
+        description: "",
+        amount: "",
+        type: "EXPENSE",
+        categoryId: "",
+        date: today
+      });
 
-    onAdded();
+      if (onAdded) onAdded();
+    } catch {
+      alert("Failed to add transaction");
+    }
   };
 
   return (
@@ -70,7 +84,11 @@ const AddTransaction = ({ onAdded }) => {
         <select
           value={form.type}
           onChange={e =>
-            setForm({ ...form, type: e.target.value })
+            setForm({
+              ...form,
+              type: e.target.value,
+              categoryId: ""
+            })
           }
         >
           <option value="EXPENSE">Expense</option>
@@ -85,13 +103,15 @@ const AddTransaction = ({ onAdded }) => {
           required
         >
           <option value="">Select Category</option>
+
           {categories
-            .filter(c => c.type === form.type)
-            .map(c => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
+  .filter(c => c.type?.toUpperCase() === form.type)
+  .map(c => (
+    <option key={c.id} value={c.id}>
+      {c.name}
+    </option>
+))}
+
         </select>
 
         <input
@@ -103,7 +123,7 @@ const AddTransaction = ({ onAdded }) => {
           required
         />
 
-        <button type="submit">Add</button>
+        <button type="submit">Add Transaction</button>
       </form>
     </div>
   );

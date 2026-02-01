@@ -15,48 +15,70 @@ const EditTransactionModal = ({
     if (!transaction) return;
 
     setForm({
-      description: transaction.description,
-      amount: transaction.amount,
-      type: transaction.type,
+      description: transaction.description || "",
+      amount: transaction.amount || "",
+      type: transaction.type || "EXPENSE",
       categoryId: transaction.category?.id || "",
-      date: transaction.date
+      date: transaction.date?.split("T")[0] || ""
     });
 
-    api.get("/api/categories")
-       .then(res => setCategories(res.data));
+    loadCategories();
   }, [transaction]);
+
+  const loadCategories = async () => {
+    try {
+      const res = await api.get("/api/categories");
+      setCategories(res.data);
+    } catch {
+      alert("Failed to load categories");
+    }
+  };
 
   if (!open || !form) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // reset category if type changes
+    if (name === "type") {
+      setForm(prev => ({
+        ...prev,
+        type: value,
+        categoryId: ""
+      }));
+      return;
+    }
+
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
-    if (!form.categoryId || Number(form.categoryId) <= 0) {
+    if (!form.categoryId) {
       alert("Please select a category");
       return;
     }
 
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const payload = {
-      description: form.description,
-      amount: Number(form.amount),
-      type: form.type,
-      categoryId: Number(form.categoryId),
-      date: form.date
-    };
+      await api.put(
+        `/api/transactions/${transaction.id}`,
+        {
+          description: form.description,
+          amount: Number(form.amount),
+          type: form.type,
+          categoryId: Number(form.categoryId),
+          date: form.date
+        }
+      );
 
-    await api.put(
-      `/api/transactions/${transaction.id}`,
-      payload
-    );
-
-    setLoading(false);
-    onUpdated();
-    onClose();
+      onUpdated();
+      onClose();
+    } catch {
+      alert("Failed to update transaction");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -68,6 +90,7 @@ const EditTransactionModal = ({
           name="description"
           value={form.description}
           onChange={handleChange}
+          placeholder="Description"
         />
 
         <input
@@ -75,6 +98,7 @@ const EditTransactionModal = ({
           name="amount"
           value={form.amount}
           onChange={handleChange}
+          placeholder="Amount"
         />
 
         <select
@@ -90,16 +114,17 @@ const EditTransactionModal = ({
           name="categoryId"
           value={form.categoryId}
           onChange={handleChange}
-          required
         >
           <option value="">Select Category</option>
-          {categories
-            .filter(c => c.type === form.type)
-            .map(c => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
+
+        {categories
+  .filter(c => c.type?.toUpperCase() === form.type)
+  .map(c => (
+    <option key={c.id} value={c.id}>
+      {c.name}
+    </option>
+))}
+
         </select>
 
         <input
@@ -111,7 +136,11 @@ const EditTransactionModal = ({
 
         <div className="modal-actions">
           <button onClick={onClose}>Cancel</button>
-          <button onClick={handleSubmit} disabled={loading}>
+
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+          >
             {loading ? "Saving..." : "Update"}
           </button>
         </div>
