@@ -18,6 +18,10 @@
   margin-bottom: 25px;
   color: #e2e8f0;
 }
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+}
 
 .sidebar-menu {
   list-style: none;

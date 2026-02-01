@@ -113,12 +113,14 @@ export default function AdminAnalytics() {
       </div>
 
       {/* Income vs Expense */}
-      <div className="bg-white p-4 rounded shadow col-span-2 h-72">
+<div className="bg-white p-4 rounded shadow h-72 flex flex-col">
         <h3 className="font-semibold mb-2">
           Income vs Expense
         </h3>
 
-        <ResponsiveContainer width="100%" height="100%">
+       <div className="flex-1">
+<ResponsiveContainer width="100%" height={240}>
+
           <LineChart data={chartData}>
             <XAxis dataKey="month" />
             <YAxis />
@@ -135,6 +137,7 @@ export default function AdminAnalytics() {
             />
           </LineChart>
         </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

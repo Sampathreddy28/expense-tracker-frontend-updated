@@ -27,8 +27,11 @@ const { login } = useAuth();
       const data = await res.json();
 console.log("LOGIN RESPONSE 👉", data);
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
+   localStorage.setItem("token", data.token);
+localStorage.setItem("refreshToken", data.refreshToken);
+localStorage.setItem("username", data.username);
+console.log("LOGIN RESPONSE 👉", data);
+
 
       const role = data.authorities?.[0]?.authority;
       localStorage.setItem("role", role);

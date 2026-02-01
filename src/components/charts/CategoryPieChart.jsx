@@ -9,6 +9,7 @@ export default function CategoryPieChart({ data }) {
       <h3 className="pie-title">Category Wise Spending</h3>
 
       <div className="pie-wrapper">
+        <div style={{ width: "100%", height: 300 }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie data={data} dataKey="amount" nameKey="category" label>
@@ -19,6 +20,7 @@ export default function CategoryPieChart({ data }) {
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

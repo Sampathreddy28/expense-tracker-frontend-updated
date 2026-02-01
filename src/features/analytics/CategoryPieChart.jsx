@@ -8,7 +8,7 @@ export default function CategoryPieChart({ data }) {
       <h3>Category Distribution</h3>
 
       <div className="chart-box">
-        <ResponsiveContainer width="100%" height="100%">
+<ResponsiveContainer width="100%" height={240}>
           <PieChart>
             <Pie
               data={data}
