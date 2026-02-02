@@ -1,10 +1,16 @@
+/* =============================
+   DASHBOARD CONTAINER
+============================= */
 .dashboard-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 4px;
 }
 
-/* ✅ Balance Card */
+/* =============================
+   BALANCE CARD
+============================= */
 .balance-card {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
@@ -26,6 +32,7 @@
   border-radius: 50%;
 }
 
+/* Label */
 .balance-label {
   font-size: 14px;
   font-weight: 500;
@@ -33,17 +40,71 @@
   margin-bottom: 6px;
 }
 
+/* Value */
 .balance-value {
   font-size: 36px;
   font-weight: 800;
   margin: 0;
+  word-break: break-word;
 }
 
-/* ✅ Section style (AddTransaction wrapper) */
+/* =============================
+   SECTION CARD
+============================= */
 .dashboard-section {
   background: #ffffff;
   border-radius: 14px;
   padding: 18px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* =============================
+   RESPONSIVE
+============================= */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .balance-card {
+    padding: 18px;
+  }
+
+  .balance-value {
+    font-size: 30px;
+  }
+
+  .dashboard-section {
+    padding: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .dashboard-container {
+    gap: 16px;
+  }
+
+  .balance-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .balance-label {
+    font-size: 13px;
+  }
+
+  .balance-value {
+    font-size: 26px;
+  }
+
+  .dashboard-section {
+    padding: 14px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  .balance-value {
+    font-size: 22px;
+  }
 }

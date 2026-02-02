@@ -1,11 +1,27 @@
+/* ===============================
+   GLOBAL RESET
+================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* ===============================
+   ROOT THEME
+================================ */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #0f172a;
+  background-color: #f1f5f9;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,66 +29,58 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* ===============================
+   BODY
+================================ */
+body {
+  min-height: 100vh;
+  background: #f1f5f9;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+/* root container must fill page */
+#root {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* ===============================
+   LINKS
+================================ */
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
+/* ===============================
+   HEADINGS
+================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* ===============================
+   BUTTON BASE
+================================ */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+/* ===============================
+   REUSABLE CARDS
+================================ */
 .component-card {
   background: white;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
+/* ===============================
+   ALERT
+================================ */
 .alert-warning {
   background: #fef3c7;
   color: #92400e;
@@ -81,11 +89,17 @@ button:focus-visible {
   margin-bottom: 1rem;
 }
 
+/* ===============================
+   PRIMARY BUTTON
+================================ */
 .btn-primary {
   background: #2563eb;
   color: white;
   padding: 0.6rem 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
-  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
 }

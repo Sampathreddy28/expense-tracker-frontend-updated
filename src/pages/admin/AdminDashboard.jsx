@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 import api from "../../api/axios";
 import { useDebounce } from "../../api/useDebounce";
+import { ResponsiveContainer } from "recharts";
 
 const AdminDashboard = () => {
   /* =======================
@@ -274,12 +275,21 @@ const AdminDashboard = () => {
       </div>
 
       {/* CHART */}
-      <LineChart width={600} height={300} data={chartData}>
-        <XAxis dataKey="month" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="total" stroke="#2563eb" />
-      </LineChart>
+     <div className="chart-container">
+  <ResponsiveContainer width="100%" height={300}>
+    <LineChart data={chartData}>
+      <XAxis dataKey="month" />
+      <YAxis />
+      <Tooltip />
+      <Line
+        type="monotone"
+        dataKey="total"
+        stroke="#2563eb"
+      />
+    </LineChart>
+  </ResponsiveContainer>
+</div>
+
 
       {/* TABLE */}
       <table className="transaction-table">

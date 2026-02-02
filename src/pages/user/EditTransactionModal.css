@@ -6,12 +6,18 @@
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(6px);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 18px;
   z-index: 9999;
+
   animation: fadeIn 0.2s ease-in-out;
+
+  /* allow scroll on small screens */
+  overflow-y: auto;
 }
 
 /* =============================
@@ -25,8 +31,13 @@
   padding: 20px;
   border: 1px solid #e2e8f0;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+
   transform: translateY(-6px);
   animation: popIn 0.25s ease-in-out;
+
+  /* prevent overflow */
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
 }
 
 .modal h3 {
@@ -69,7 +80,7 @@
   margin-top: 10px;
 }
 
-/* Cancel button */
+/* Cancel */
 .modal-actions button:first-child {
   padding: 10px 14px;
   border-radius: 14px;
@@ -86,7 +97,7 @@
   transform: translateY(-1px);
 }
 
-/* Update button */
+/* Update */
 .modal-actions button:last-child {
   padding: 10px 14px;
   border-radius: 14px;
@@ -111,15 +122,39 @@
 }
 
 /* =============================
+   MOBILE OPTIMIZATION
+============================= */
+@media (max-width: 480px) {
+  .modal {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .modal h3 {
+    font-size: 16px;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 13px;
+    padding: 9px 10px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+/* =============================
    ANIMATIONS
 ============================= */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes popIn {

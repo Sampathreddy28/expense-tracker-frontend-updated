@@ -1,3 +1,6 @@
+/* ===========================
+   INSIGHTS CARD
+=========================== */
 .insights-card {
   background: #ffffff;
   padding: 20px;
@@ -7,6 +10,7 @@
   margin-top: 20px;
 }
 
+/* Title */
 .insights-title {
   font-size: 20px;
   font-weight: 700;
@@ -16,6 +20,7 @@
   padding-left: 10px;
 }
 
+/* List */
 .insights-list {
   list-style: none;
   padding: 0;
@@ -25,6 +30,7 @@
   gap: 10px;
 }
 
+/* Item */
 .insights-item {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -34,6 +40,10 @@
   color: #334155;
   font-weight: 500;
   transition: 0.2s ease-in-out;
+
+  /* prevent overflow */
+  word-break: break-word;
+  line-height: 1.4;
 }
 
 .insights-item:hover {
@@ -46,4 +56,52 @@
   color: #64748b;
   font-size: 14px;
   font-style: italic;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .insights-card {
+    padding: 16px;
+  }
+
+  .insights-title {
+    font-size: 18px;
+  }
+
+  .insights-item {
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .insights-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .insights-title {
+    font-size: 16px;
+  }
+
+  .insights-item {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .insights-title {
+    font-size: 15px;
+  }
+
+  .insights-item {
+    font-size: 13px;
+    padding: 9px 11px;
+  }
 }

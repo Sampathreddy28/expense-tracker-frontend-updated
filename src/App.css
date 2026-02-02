@@ -353,3 +353,18 @@ select:focus {
   width: 18px;
   height: 18px;
 }
+.content-wrapper {
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .content-wrapper {
+    padding: 14px;
+  }
+}
+button {
+  min-height: 40px;
+}
+.sidebar {
+  overflow-y: auto;
+}

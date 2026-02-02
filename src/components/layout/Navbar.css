@@ -16,18 +16,22 @@
   z-index: 100;
 }
 
+/* Title */
 .navbar-title {
   font-size: 18px;
   font-weight: 800;
   color: #0f172a;
+  white-space: nowrap;
 }
 
+/* Right section */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
+/* Role badge */
 .navbar-role {
   background: #f97316;
   color: white;
@@ -37,6 +41,7 @@
   border-radius: 999px;
 }
 
+/* Logout button */
 .logout-btn {
   background: #dc2626;
   color: white;
@@ -52,4 +57,76 @@
 .logout-btn:hover {
   background: #b91c1c;
   transform: translateY(-1px);
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .navbar {
+    height: 56px;
+    padding: 0 14px;
+  }
+
+  .navbar-title {
+    font-size: 16px;
+  }
+
+  .logout-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .navbar-role {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .navbar {
+    height: auto;
+    padding: 10px 12px;
+  }
+
+  .navbar-title {
+    font-size: 15px;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .logout-btn {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .navbar-role {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-btn {
+  font-size: 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: none;
+}
+
+/* Show menu button on mobile */
+@media (max-width: 768px) {
+  .menu-btn {
+    display: block;
+  }
 }

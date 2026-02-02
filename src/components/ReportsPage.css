@@ -76,7 +76,29 @@
 }
 
 /* =============================
-   MOBILE RESPONSIVE
+   TABLET
+============================= */
+@media (max-width: 768px) {
+  .reports-card {
+    padding: 16px;
+  }
+
+  .reports-title {
+    font-size: 16px;
+  }
+
+  .report-btn {
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
+  .report-icon {
+    font-size: 16px;
+  }
+}
+
+/* =============================
+   MOBILE
 ============================= */
 @media (max-width: 600px) {
   .reports-buttons {
@@ -86,5 +108,27 @@
   .report-btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* =============================
+   SMALL PHONES
+============================= */
+@media (max-width: 400px) {
+  .reports-card {
+    padding: 14px;
+  }
+
+  .reports-title {
+    font-size: 15px;
+  }
+
+  .report-btn {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .report-icon {
+    font-size: 15px;
   }
 }

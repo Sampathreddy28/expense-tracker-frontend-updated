@@ -10,6 +10,7 @@
   margin-bottom: 20px;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
   transition: 0.2s ease;
+  min-width: 0;
 }
 
 .component-card:hover {
@@ -25,21 +26,14 @@
   color: #0f172a;
 }
 
-/* ✅ Chart Box wrapper inside card */
+/* Chart container */
 .chart-box {
   width: 100%;
+  height: 320px;
+  min-width: 0;
 }
 
-/* ✅ Make recharts chart responsive center */
-.recharts-responsive-container {
-  margin-top: 10px;
-}
-
-/* ✅ Tooltip style */
-.recharts-tooltip-wrapper {
-  outline: none;
-}
-
+/* Tooltip */
 .recharts-default-tooltip {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
@@ -53,26 +47,39 @@
   color: #0f172a !important;
 }
 
-/* ✅ Axis text styling */
+/* Axis */
 .recharts-cartesian-axis-tick text {
   fill: #334155;
   font-size: 12px;
   font-weight: 600;
 }
 
-/* ✅ Grid styling */
+/* Grid */
 .recharts-cartesian-grid line {
   stroke: #e2e8f0;
 }
-/* ✅ FIX RECHARTS RESPONSIVE WIDTH/HEIGHT ISSUE */
-.chart-box {
-  width: 100%;
-  height: 320px;   /* ✅ must be > 0 */
-  min-height: 280px;
-  min-width: 0;    /* ✅ IMPORTANT inside flex/grid */
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .chart-box {
+    height: 280px;
+  }
 }
 
-/* ✅ If chart is inside a grid/flex item */
-.component-card {
-  min-width: 0;
+/* Mobile */
+@media (max-width: 600px) {
+  .chart-box {
+    height: 240px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .chart-box {
+    height: 210px;
+  }
 }

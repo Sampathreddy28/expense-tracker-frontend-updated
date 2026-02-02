@@ -233,3 +233,71 @@
     font-size: 13px;
   }
 }
+/* Hide mobile cards by default */
+.transaction-cards {
+  display: none;
+}
+
+/* Table scroll wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* =============================
+   MOBILE CARDS
+============================= */
+@media (max-width: 768px) {
+  .transaction-table {
+    display: none;
+  }
+
+  .transaction-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tx-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  }
+
+  .tx-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #0f172a;
+  }
+
+  .tx-row.small {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .tx-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .tx-actions button {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #e2e8f0;
+  }
+
+  .tx-actions button.danger {
+    background: #fee2e2;
+    color: #b91c1c;
+  }
+}

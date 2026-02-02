@@ -39,23 +39,41 @@ function Dashboard() {
   }, [refreshTrigger]);
 
   return (
-    <div className="dashboard-container">
-      <div className="component-card">
-        <h3>Current Balance</h3>
-        <h1>{balance}</h1>
-      </div>
+  <div className="dashboard-container">
+    {/* Balance */}
+    <div className="component-card">
+      <h3>Current Balance</h3>
+      <h1>{balance}</h1>
+    </div>
 
-      <AddTransaction onAdded={triggerRefresh} />
-      <TransactionHistory refreshTrigger={refreshTrigger} />
+    {/* Add Transaction */}
+    <AddTransaction onAdded={triggerRefresh} />
+
+    {/* History */}
+    <TransactionHistory refreshTrigger={refreshTrigger} />
+
+    {/* Grid Section 1 */}
+    <div className="grid-section">
       <BudgetPage />
       <AnalyticsPage />
+    </div>
+
+    {/* Grid Section 2 */}
+    <div className="grid-section">
       <InsightsPage />
       <AlertSettings />
+    </div>
+
+    {/* Grid Section 3 */}
+    <div className="grid-section">
       <MonthlyReportDownload />
       <MonthlyTrendChart />
-      <SpendingInsights />
     </div>
-  );
+
+    <SpendingInsights />
+  </div>
+);
+
 }
 
 export default Dashboard;

@@ -131,45 +131,69 @@ const TransactionHistory = ({ refreshTrigger }) => {
       </div>
 
       {/* 📄 TABLE */}
-      <table className="transaction-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {/* ===== DESKTOP TABLE ===== */}
+<div className="table-wrapper">
+  <table className="transaction-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
 
-        <tbody>
-          {transactions.map(tx => (
-            <tr key={tx.id}>
-              <td>{tx.date}</td>
-              <td>{tx.description}</td>
-              <td>{tx.type}</td>
-              <td>₹{tx.amount}</td>
-              <td>
-                <button
-                  onClick={() => setEditingTx(tx)}
-                >
-                  ✏️
-                </button>
+    <tbody>
+      {transactions.map(tx => (
+        <tr key={tx.id}>
+          <td>{tx.date}</td>
+          <td>{tx.description}</td>
+          <td>{tx.type}</td>
+          <td>₹{tx.amount}</td>
+          <td>
+            <button onClick={() => setEditingTx(tx)}>✏️</button>
 
-                <button
-                  style={{
-                    color: "red",
-                    marginLeft: "6px"
-                  }}
-                  onClick={() => handleDelete(tx.id)}
-                >
-                  🗑
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            <button
+              style={{ color: "red", marginLeft: "6px" }}
+              onClick={() => handleDelete(tx.id)}
+            >
+              🗑
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+{/* ===== MOBILE CARDS ===== */}
+<div className="transaction-cards">
+  {transactions.map(tx => (
+    <div key={tx.id} className="tx-card">
+      <div className="tx-row">
+        <span>{tx.description}</span>
+        <strong>₹{tx.amount}</strong>
+      </div>
+
+      <div className="tx-row small">
+        <span>{tx.date}</span>
+        <span>{tx.type}</span>
+      </div>
+
+      <div className="tx-actions">
+        <button onClick={() => setEditingTx(tx)}>Edit</button>
+        <button
+          className="danger"
+          onClick={() => handleDelete(tx.id)}
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
 
       {/* ⏮ PAGINATION */}
       <div className="pagination">

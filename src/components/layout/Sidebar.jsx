@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-const Sidebar = () => {
+const Sidebar = ({ open, onClose }) => {
   const role = localStorage.getItem("role");
 
   const userMenu = [
@@ -21,26 +21,32 @@ const Sidebar = () => {
   const menu = role === "ROLE_ADMIN" ? adminMenu : userMenu;
 
   return (
-    <aside className="sidebar">
-      <h3 className="sidebar-title">
-        {role === "ROLE_ADMIN" ? "Admin Panel" : "Expense Tracker"}
-      </h3>
+    <>
+      {/* Overlay */}
+      {open && <div className="sidebar-overlay" onClick={onClose} />}
 
-      <ul className="sidebar-menu">
-        {menu.map((item) => (
-          <li key={item.path}>
-            <NavLink
-              to={item.path}
-              className={({ isActive }) =>
-                isActive ? "sidebar-link active" : "sidebar-link"
-              }
-            >
-              {item.label}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </aside>
+      <aside className={`sidebar ${open ? "open" : ""}`}>
+        <h3 className="sidebar-title">
+          {role === "ROLE_ADMIN" ? "Admin Panel" : "Expense Tracker"}
+        </h3>
+
+        <ul className="sidebar-menu">
+          {menu.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                onClick={onClose}
+                className={({ isActive }) =>
+                  isActive ? "sidebar-link active" : "sidebar-link"
+                }
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </>
   );
 };
 

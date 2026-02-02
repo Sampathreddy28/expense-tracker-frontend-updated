@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import api from '../../api/axios';
+import React, { useEffect, useState } from "react";
+import api from "../../api/axios";
 import {
   PieChart,
   Pie,
   Tooltip,
   ResponsiveContainer
-} from 'recharts';
+} from "recharts";
 import "./MonthlySummary.css";
 
 const MonthlySummary = () => {
   const [summary, setSummary] = useState([]);
 
   useEffect(() => {
-    api.get('/api/transactions/summary/monthly')
+    api.get("/api/transactions/summary/monthly")
       .then(res => setSummary(res.data))
       .catch(console.error);
   }, []);
@@ -22,13 +22,14 @@ const MonthlySummary = () => {
       <h3>Monthly Expense Breakdown</h3>
 
       <div className="chart-box">
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={summary}
               dataKey="total"
               nameKey="category"
-              outerRadius={100}
+              outerRadius="75%"
+              label
             />
             <Tooltip />
           </PieChart>

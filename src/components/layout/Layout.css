@@ -208,3 +208,56 @@ select:focus {
 .layout-content::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+/* ===============================
+   MAIN LAYOUT
+================================ */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+/* Body: sidebar + content */
+.layout-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Main content */
+.layout-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .layout-content {
+    padding: 16px;
+  }
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .layout-body {
+    flex-direction: column;
+  }
+
+  .layout-content {
+    padding: 14px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .layout-content {
+    padding: 12px;
+  }
+}

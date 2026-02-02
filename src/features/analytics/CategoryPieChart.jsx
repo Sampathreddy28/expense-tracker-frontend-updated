@@ -8,13 +8,14 @@ export default function CategoryPieChart({ data }) {
       <h3>Category Distribution</h3>
 
       <div className="chart-box">
-<ResponsiveContainer width="100%" height={240}>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               dataKey="totalAmount"
               nameKey="categoryName"
-              outerRadius={110}
+              outerRadius="75%"   // responsive radius
+              labelLine={false}   // cleaner on small screens
               label
             >
               {data.map((_, i) => (
