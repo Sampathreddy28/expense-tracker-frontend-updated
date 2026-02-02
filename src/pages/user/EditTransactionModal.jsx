@@ -35,29 +35,33 @@ api.get("/api/categories").then(res => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async () => {
-    if (!form.categoryId) {
-      alert("Please select a category");
-      return;
-    }
+ const handleSubmit = async () => {
+  if (!form.categoryId) {
+    alert("Please select a category");
+    return;
+  }
 
+  try {
     setLoading(true);
 
-await api.put(`/api/transactions/${transaction.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        description: form.description,
-        amount: Number(form.amount),
-        type: form.type,
-        categoryId: Number(form.categoryId), // ✅ GUARANTEED
-        date: form.date
-      })
+    await api.put(`/api/transactions/${transaction.id}`, {
+      description: form.description,
+      amount: Number(form.amount),
+      type: form.type,
+      categoryId: Number(form.categoryId),
+      date: form.date
     });
 
-    setLoading(false);
     onUpdated();
     onClose();
-  };
+  } catch (err) {
+    console.error(err.response?.data);
+    alert("Update failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
    <div className="modal-backdrop" onClick={onClose}>
